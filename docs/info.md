@@ -9,7 +9,7 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-C404 is a cpu
+C404 is a 4-bit CPU inspired by Intel 4004. 
 
 ## How to test
 
