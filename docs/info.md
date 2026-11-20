@@ -9,12 +9,79 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-C404 is a 4-bit CPU inspired by Intel 4004. 
+C404 is a 4-bit CPU-inspired execution engine implemented in Verilog, drawing inspiration from early microprocessors, particularly the Intel 4004.
+This project explores fundamental processor concepts, including instruction decoding, register operations, arithmetic and logic operations, carry handling, and output control.
+C404 uses an 8-bit instruction input interface and maintains three 4-bit general-purpose registers (A, B and Z), together with a carry flag (CF).
+
+The design consists of 5 main logical components:
+1. Instruction Decoder - Extracts the opcode and operands from the input pins
+2. Control Unit and ALU - Decodes instructions and performs arithmetic and logic operations
+3. Register Bank - Stores the A,B and Z register values
+4. Carry Flag - Stores the carry or borrow state produced by arithmetic and shift operations
+5. Output Latch - Holds the most recently captured output value
+   
+The register organisation consists of 3 physical 4-bit registers and 1 logical constant-zero register:
+1. Register A - Stores general-purpose data and serves as an operand for arithmetic and logical operations.
+2. Register B - Stores general-purpose data and serves as another operand for arithmetic and logical operations.
+3. Register Z - Stores the results produced by the ALU and can also be used as a general-purpose register.
+4. Register 0 - Provides a constant value of 0000 and does not require physical storage.
+Each register is selected using a 2-bit register selector.
+
+### Instruction Input
+C404 receives an 8-bit instruction through its input interface (`ui_in[7:0]`).
+The instruction is divided into two parts:
+1. Upper 4 bits (`ui_in[7:4]`) - Specifies the opcode, which determines the operation to be performed.
+2. Lower 4 bits (`ui_in[3:0]`) - Contains operand information or a 4-bit immediate value, depending on the instruction format.
+For register-based instructions, the lower four bits may contain register selectors. For immediate-loading instructions, they contain the 4-bit immediate value.
+The instruction is supplied externally, allowing C404 to execute operations without requiring an internal instruction memory.
+
+### Instruction Decoding
+The Instruction Decoder examines the opcode from the input instruction to determine which operation should be executed.
+Based on the opcode, the decoder identifies the instruction type and interprets the remaining input bits as operands, register selectors or immediate data.
+The decoded instruction is then passed to the Control Unit for execution.
+
+### Instruction Execution
+The Control Unit and ALU perform the operation specified by the decoded instruction.
+C404 supports arithmetic, logical, shifting, immediate loading, register transfer, comparison and output operations.
+Depending on the instruction, the execution unit may read data from registers A and B, update register Z, modify the carry flag (CF), or transfer data between registers.
+
+### Output Generation
+The OUT instruction transfers the current value of register Z and the carry flag (CF) into the output latch.
+The output latch stores the captured value and continuously drives the output pins.
+The output format is: `{3'b000, CF, Z[3:0]}`
+The output remains unchanged until another OUT instruction is executed or the reset signal is asserted.
+
+### Clock and Reset
+C404 uses a clock signal to control sequential operations. 
+Register and output-latch updates occur on the rising edge of the clock.
+The design uses an active-low asynchronous reset (`rst_n`) to initialise its internal state.
+When reset is asserted, registers A, B and Z, the carry flag and the output latch are cleared to zero.
+
 
 ## How to test
 
-Explain how to use your project
+C404 is verified using a Verilog simulation environment with Cocotb for automated functional testing.
+The testbench supplies instructions through the CPU input interface and checks the resulting outputs against the expected values.
+
+### Test Coverage
+The testbench includes tests for the following operations:
+1. Immediate loading (LDI_A and LDI_B).
+2. Addition (ADD and ADDC).
+3. Subtraction (SUB).
+4. Output generation (OUT).
+Additional instructions and behaviours may require further testing to achieve complete functional coverage.
+
+### Running the Simulation
+The design can be tested using the Tiny Tapeout simulation environment.
+The simulation allows instructions to be supplied through the input pins and the resulting output signals to be observed.
+The expected output can then be compared with the actual simulation results to verify the design's behaviour.
+
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+C404 receives an 8-bit instruction through its input interface (`ui_in[7:0]`).
+The external controller is responsible for supplying instructions and managing their execution through the clock signal.
+C404 provides its results through the output interface (`uo_out[4:0]`), which consists of the 4-bit output value from register Z and the carry flag (CF).
+The design relies on an external clock and reset signal to control its sequential operations.
+
+
