@@ -77,10 +77,10 @@ I splitted the design into multiple modules: TOP/main, decode, registers, carry 
 
 ## example code
 ### here are some example code that i used for testing
-LDI_A 5 //load 5 into register A
-LDI_B 3 //load 3 into register B
-ADD //Add A and B and store in Z
-OUT //output result from Z
+LDI_A 5  - load 5 into register A;
+LDI_B 3  - load 3 into register B;
+ADD  - Add A and B and store in Z;
+OUT - output result from Z;
 
 ### the waveform diagram
 ![waveform](../image_assets/waveform_explanation.png)
