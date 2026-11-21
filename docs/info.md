@@ -8,7 +8,7 @@ You can also include images in this folder and reference them in the markdown. E
 -->
 
 ## How it works
-##### I accidentally submitted this file instead of writeup.[Read the writeup for project](writeup.md)
+##### I accidentally submitted this file instead of writeup.[Read the writeup for project](https://hackmd.io/@legend1243/Hy2SoVkJ7l) [or here](writeup.md)
 C404 is a 4-bit CPU-inspired execution engine implemented in Verilog, drawing inspiration from early microprocessors, particularly the Intel 4004.
 This project explores fundamental processor concepts, including instruction decoding, register operations, arithmetic and logic operations, carry handling, and output control.
 C404 uses an 8-bit instruction input interface and maintains three 4-bit general-purpose registers (A, B and Z), together with a carry flag (CF).
