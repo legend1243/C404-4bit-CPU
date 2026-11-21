@@ -1,6 +1,7 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
 # C404 — 4-bit CPU
+![C404](image_assets/transistor_view.png)
 
 - [Read the documentation for project](docs/info.md)
 

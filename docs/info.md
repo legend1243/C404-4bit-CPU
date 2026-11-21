@@ -42,6 +42,31 @@ The lower four bits (`ui_in[3:0]`) are interpreted according to the instruction 
 The Control Unit uses a case statement to identify the instruction and generates the corresponding control signals for execution.
 C404 supports 16 instructions covering arithmetic, logical, shifting, immediate loading, register transfer, comparison and output operations.
 
+## Instruction Set
+
+C404 supports 16 instructions, encoded using a 4-bit opcode (`ui_in[7:4]`). The lower 4 bits (`ui_in[3:0]`) contain register selectors or immediate data, depending on the instruction.
+
+| Opcode | Instruction | Operation | Description |
+|:------:|:-----------|:----------|:------------|
+| `0000` | NOP | No operation | Performs no operation. |
+| `0001` | ADD | Addition | Adds register A and B and store in Z |
+| `0010` | ADDC | Add with carry | Adds  register A, register B and carry flag, and store in Z |
+| `0011` | SUB | Subtraction | Subtracts B from A and store in Z |
+| `0100` | SUBC | Subtract with carry | Performs subtraction with the carry/borrow state. |
+| `0101` | NOT | Bitwise NOT | Performs bitwise inversion. |
+| `0110` | AND | Bitwise AND | Performs a bitwise AND operation. |
+| `0111` | OR | Bitwise OR | Performs a bitwise OR operation. |
+| `1000` | XOR | Bitwise XOR | Performs a bitwise XOR operation. |
+| `1001` | LSHIFT | Left shift | Shifts the selected operand left by one bit, overflow is stored in CF. |
+| `1010` | RSHIFT | Right shift | Shifts the selected operand right by one bit, overflow is stored in CF. |
+| `1011` | LDI_A | Load immediate | Loads a 4-bit immediate value into register A. |
+| `1100` | LDI_B | Load immediate | Loads a 4-bit immediate value into register B. |
+| `1101` | MOV | Register transfer | Transfers data between registers, DST=SRC. |
+| `1110` | CMP | Comparison | Compares the selected operands and updates the comparison state. |
+| `1111` | OUT | Output | Captures register Z and the carry flag into the output latch. |
+
+All instructions use a 4-bit opcode, allowing 16 unique instruction encodings.
+
 ### Instruction Execution
 The Control Unit and ALU perform the operation specified by the decoded instruction.
 C404 supports arithmetic, logical, shifting, immediate loading, register transfer, comparison and output operations.
